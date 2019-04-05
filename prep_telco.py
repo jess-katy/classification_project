@@ -79,7 +79,7 @@ def create_security(df):
 
 def split(df):
     train_df, test_df = train_test_split(df, test_size = .30, random_state = 123, stratify = df[['churn']])
-    return df
+    return [train_df,test_df]
 
 def encode_data(df):
     for col in df.drop(columns=(['customer_id', 'total_charges', 'monthly_charges'])):
@@ -90,8 +90,7 @@ def encode_data(df):
     return df
 
 def encode_test_train(df):
-    train_df = encode_data(train_df)
-    test_df = encode_data(test_df)
+    df = encode_data(df)
     return df
 
 def scale(train_df):
@@ -114,9 +113,9 @@ def prep_telco_data(df):
     return df
 
 def prep_split_data(df):
-    train_df = split(df)
+    train_df,test_df = split(df)
     df = encode_data(df)
     train_df = encode_test_train(train_df)
-    train_df = scale(train_df)
-    return train_df
+    test_df = encode_test_train(test_df)
+    return train_df,test_df
 
