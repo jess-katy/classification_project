@@ -6,11 +6,6 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 
-# def open_file(csv_file):
-#     path = './'
-#     df = pd.read_csv(path + {''})
-#     return df
-
 def peekatdata(df):
     print("\nRows & Columns:\n")
     print(df.shape)
@@ -84,7 +79,7 @@ def create_security(df):
 
 def split(df):
     train_df, test_df = train_test_split(df, test_size = .30, random_state = 123, stratify = df[['churn']])
-    return train_df
+    return df
 
 def encode_data(df):
     for col in df.drop(columns=(['customer_id', 'total_charges', 'monthly_charges'])):
@@ -92,11 +87,12 @@ def encode_data(df):
         encoder.fit(df[col])
         new_col = col + '_encode'
         df[new_col] = encoder.transform(df[col])
+    return df
 
 def encode_test_train(df):
     train_df = encode_data(train_df)
     test_df = encode_data(test_df)
-    return train_df
+    return df
 
 def scale(train_df):
     scaler = MinMaxScaler()
@@ -106,7 +102,6 @@ def scale(train_df):
     return train_df
 
 def prep_telco_data(df):
-    # df = peekatdata(df)
     df = df_value_counts(df)
     df = percent_missing(df)
     df = charge_emtpy(df)
@@ -116,7 +111,12 @@ def prep_telco_data(df):
     df = create_household(df)
     df = create_streaming(df)
     df = create_security(df)
+    return df
+
+def prep_split_data(df):
     train_df = split(df)
-    train_df = encode_data(train_df)
-    # train_df = scale(train_df)
+    df = encode_data(df)
+    train_df = encode_test_train(train_df)
+    train_df = scale(train_df)
     return train_df
+
