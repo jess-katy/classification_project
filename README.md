@@ -13,3 +13,6 @@ df = pd.read_csv(path + "telco_churn.csv")
 4. prep_split_data(df)
 
 5. Data is now ready to be used with Decision Tree model
+
+Presentation: 
+https://docs.google.com/presentation/d/12ZtnOYIPrUgWld3mVcqHivUr3OoOvOZ4kLr1g8Ut5lI/edit?usp=sharing
